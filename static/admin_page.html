@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+</head>
+<body>     
+    <div>
+        <div>
+            <br><br>
+            <p id="message"></p></br>   
+            <p> <b>All Questions,Answers and Occurences</b></p>
+            <!--<textarea cols=100 rows=10 id="tmp_qsts"></textarea>-->
+        </div>
+        <div id="unans_questions">
+             
+            <!-- list of all questions as labels, answers as text boxes with a submit button to answer the unanswered question --> 
+            
+        </div>
+        
+    </div>
+    
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"> </script>
+<script>
+
+$(document).ready(function(){
+    $.get("../get_all_qsts_ans",function(data,status){
+        var qsts = $.parseJSON(data);
+        if(qsts == "{}") {
+           return ;
+        }
+        var qsts_html = "";
+        var ind = "";
+        var qst_keys = Object.keys(qsts);
+        for(var i = 0;i<qst_keys.length;i++) {
+            //alert(qsts[i]);
+            ind = qst_keys[i];
+            qst = qsts[ind]['qstn'];
+            ans = qsts[ind]['ans'];
+            occurence = qsts[ind]['occurence']
+            cont = build_qst_form(ans,qst,occurence,ind);  
+            qsts_html = qsts_html + cont;
+        }
+        $("#unans_questions").html(qsts_html);
+            
+    });
+    
+$('body').on('click', '[id^="btn"]', function() {
+        var btn_id = this.id;
+        var id = btn_id.replace("btn","");
+        $.get("../delete_record?btn_id="+id,function(data,status){
+           //$("#message").text(data);  
+           alert("Data:"+data);
+            });       
+    });
+});
+
+function build_qst_form(ans, qst, occurence, i) {
+    html_qst = "<label>"+i+"</label>&nbsp";
+    html_qst = html_qst + "<label>"+qst+"</label>&nbsp";
+    html_qst = html_qst + "<label>"+ans+"</label>&nbsp";
+    html_qst = html_qst + "<label>"+occurence+"</label>&nbsp";
+    //html_qst = "<input type='text' id='qst" +i+"' value='"+qst+"' >";
+    //html_qst = html_qst + "<input type='text' id='ans" +i+"' value='' >";
+    html_qst = html_qst + "<button type='text' id='btn" +i+"'>Delete</button> <br />";
+    //alert(html_qst);
+    //$("#tmp_qsts").val($("#tmp_qsts").val()+html_qst);
+    return html_qst;
+}    
+    
+</script>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+</head>
+<body>
+    <div>
+        <br><br>
+        <p> <b>Registration Page</b></p>
+	<form>  
+	<label >Page ID</label><input type="text" id="page_id" name="page_id" required><br/>      
+	<label >Access Token</label><input type="text" id="access_token" name="access_token" required><br/>
+    <label>DataBase Name</label><input type="text" id="database_name" name="database_name" required ><br/>
+	<label>Page URL</label><input type="text" id="page_url" name="page_url" required ><br/>
+	<label>Contact Name</label><input type="text" id="contact_name" name="contact_name" required ><br/>
+	<label for="contact_email">Contact Email</label><input type="text" id="contact_email" name="contact_email" required ><br/>
+	<label>Contact Number</label><input type="text" id="contact_number" name="contact_number" required ><br/>
+        <button> Submit </button>
+	</form>
+    </div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"> </script>
+<script>
+
+$("button").click(function(){
+    var page_id = $("#page_id").val();
+    var access_token = $("#access_token").val();
+    var database_name = $("#database_name").val();
+    var page_url = $("#page_url").val();
+    var contact_name = $("#contact_name").val();
+    var contact_email = $("#contact_email").val();
+    var contact_number = $("#contact_number").val();
+    page_detail = {'page_id':page_id,'access_token':access_token,'database_name':database_name,'page_url':page_url,'contact_name':contact_name,'contact_email':contact_email,'contact_number':contact_number}
+    if(page_id=='' || access_token=='' || database_name=='' || page_url == '' || contact_name == '' || contact_email=='' || contact_number==''){
+	//alert("All Fields are Mandatory");	
+	}
+    else{
+	//$.get("../register",page_detail,function(data,status){
+	$.post("../register",function(data,status){        
+	alert(data);
+    });
+	}
+});
+
+</script>
+</html>
